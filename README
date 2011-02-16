@@ -1,3 +1,11 @@
+This is a fork of Douglas Crockford's reference JSON implementation.
+I always liked the simplicity of what he did but just had some different
+preferences for my apps.  Third parties are free but not encouraged
+to use this library.
+- stella
+
+Original Readme Follows
+-----------------------
 JSON in Java [package org.json]
 
 Douglas Crockford

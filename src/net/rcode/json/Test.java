@@ -1,4 +1,4 @@
-package org.json;
+package net.rcode.json;
 
 import java.util.ArrayList;
 import java.util.Collection;
