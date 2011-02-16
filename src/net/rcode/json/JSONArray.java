@@ -80,7 +80,7 @@ import java.util.Map;
  * @author JSON.org
  * @version 2010-12-28
  */
-public class JSONArray {
+public class JSONArray extends JSONBase implements Iterable {
 
 
     /**
@@ -88,7 +88,50 @@ public class JSONArray {
      */
     private ArrayList myArrayList;
 
+    @Override
+    public Iterator iterator() {
+    	return myArrayList.iterator();
+    }
+    
+    public <T> Iterable<T> cast(final Class<T> type) {
+    	return new Iterable<T>() {
+			@Override
+			public Iterator<T> iterator() {
+				final Iterator<?> iter=myArrayList.iterator();
+				return new Iterator<T>() {
+					@Override
+					public boolean hasNext() {
+						return iter.hasNext();
+					}
 
+					@Override
+					public T next() {
+						Object value=iter.next();
+						return JSONBase.cast(value, type);
+					}
+
+					@Override
+					public void remove() {
+						iter.remove();
+					}
+				};
+			}
+    	};
+    }
+    
+    @Override
+    public Object lookupProperty(String name) {
+    	if ("length".equals(name)) return myArrayList.size();
+    	else {
+    		try {
+    			return myArrayList.get(Integer.parseInt(name));
+    		} catch (Exception e) {
+    			// NumberFormatException, ArrayIndexOutOfBounds, NullPointerException
+    			return null;
+    		}
+    	}
+    }
+    
     /**
      * Construct an empty JSONArray.
      */
