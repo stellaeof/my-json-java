@@ -1,0 +1,13 @@
+<project name="my-json-java" default="jar">
+	<target name="compile">
+		<mkdir dir="build/classes"/>
+		<javac srcdir="src" destdir="build/classes" target="1.5" source="1.5"/>
+	</target>
+	
+	<target name="jar" depends="compile">
+		<mkdir dir="dist"/>
+		<jar jarfile="dist/myjson.jar">
+			<fileset dir="build/classes"/>
+		</jar>
+	</target>
+</project>

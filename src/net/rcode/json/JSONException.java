@@ -2,12 +2,15 @@ package net.rcode.json;
 
 /**
  * The JSONException is thrown by the JSON.org classes when things are amiss.
+ * <p>
+ * This has been modified to extend RuntimeException and use native chained
+ * exceptions.
+ * 
  * @author JSON.org
  * @version 2010-12-24
  */
-public class JSONException extends Exception {
+public class JSONException extends RuntimeException {
 	private static final long serialVersionUID = 0;
-	private Throwable cause;
 
     /**
      * Constructs a JSONException with an explanatory message.
@@ -18,11 +21,7 @@ public class JSONException extends Exception {
     }
 
     public JSONException(Throwable cause) {
-        super(cause.getMessage());
-        this.cause = cause;
+        super(cause);
     }
 
-    public Throwable getCause() {
-        return this.cause;
-    }
 }
