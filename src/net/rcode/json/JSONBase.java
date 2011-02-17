@@ -59,6 +59,36 @@ public abstract class JSONBase {
 	public abstract Object lookupProperty(String name);
 	
 	/**
+	 * Looks up a property of the given type
+	 * @param <T>
+	 * @param name
+	 * @param ofType
+	 * @return the value or null if doesn't exist
+	 */
+	public <T> T lookupProperty(String name, Class<T> ofType) {
+		return cast(lookupProperty(name), ofType);
+	}
+	
+	/**
+	 * Looks up a property of a type inferred by a non-null default
+	 * value
+	 * @param <T>
+	 * @param name
+	 * @param defaultValue
+	 * @return property or defaultValue
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T lookupProperty(String name, T defaultValue) {
+		if (defaultValue==null) {
+			return (T)lookupProperty(name);
+		} else {
+			T ret=(T)lookupProperty(name, defaultValue.getClass());
+			if (ret==null) return defaultValue;
+			else return ret;
+		}
+	}
+	
+	/**
 	 * Parse a path and evaluate it.
 	 * @param expression
 	 * @return null if any part of expression is not found.  otherwise the result
