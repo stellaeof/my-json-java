@@ -39,6 +39,12 @@ public abstract class JSONBase {
 					if ("false".equalsIgnoreCase((String)from)) return (T)Boolean.FALSE;
 				}
 				return null;
+			} else if (to==JSONObject.class) {
+				if (from instanceof JSONObject) return (T)from;
+				else return null;
+			} else if (to==JSONArray.class) {
+				if (from instanceof JSONArray) return (T)from;
+				else return null;
 			} else {
 				return null;
 			}
