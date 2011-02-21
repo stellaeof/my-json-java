@@ -12,24 +12,30 @@ public class CharSequenceReader extends Reader {
 	}
 	
 	@Override
-	public int read(char[] cbuf, int off, int len) throws IOException {
-		// TODO Auto-generated method stub
-		return 0;
+	public void close() throws IOException {
+	}
+
+	@Override
+	public int read(char[] dest, int index, int len) throws IOException {
+		int remaining=source.length()-position;
+		if (remaining<=0) return -1;
+		if (remaining>len) remaining=len;
+		
+		for (int i=0; i<remaining; i++) {
+			dest[index+i]=source.charAt(position+i);
+		}
+		
+		position+=remaining;
+		return remaining;
+	}
+
+	@Override
+	public int read(char[] buf) throws IOException {
+		return read(buf, 0, buf.length);
 	}
 	
 	@Override
 	public int read() throws IOException {
-		// TODO Auto-generated method stub
-		return super.read();
-	}
-	
-	@Override
-	public int read(char[] cbuf) throws IOException {
-		// TODO Auto-generated method stub
-		return super.read(cbuf);
-	}
-	
-	@Override
-	public void close() throws IOException {
-	}
-}
+		if (position<source.length()) return source.charAt(position++);
+		else return -1;
+	}}
