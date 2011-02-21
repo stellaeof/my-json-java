@@ -258,6 +258,22 @@ public class JSONObject extends JSONBase {
     }
 
 
+
+
+    /**
+     * Construct a JSONObject from a source JSON text string.
+     * This is the most commonly used JSONObject constructor.
+     * @param source    A string beginning
+     *  with <code>{</code>&nbsp;<small>(left brace)</small> and ending
+     *  with <code>}</code>&nbsp;<small>(right brace)</small>.
+     * @exception JSONException If there is a syntax error in the source
+     *  string or a duplicated key.
+     */
+    public JSONObject(CharSequence source) throws JSONException {
+        this(new JSONTokener(source));
+    }
+
+
     /**
      * Construct a JSONObject from an Object using bean getters.
      * It reflects on all of the public methods of the object.
@@ -277,12 +293,12 @@ public class JSONObject extends JSONBase {
      * @param bean An object that has getter methods that should be used
      * to make a JSONObject.
      */
-    public JSONObject(Object bean) {
-        this();
-        populateMap(bean);
+    public static JSONObject introspect(Object bean) {
+    	JSONObject ret=new JSONObject();
+    	ret.populateMap(bean);
+    	return ret;
     }
-
-
+    
     /**
      * Construct a JSONObject from an Object, using reflection to find the
      * public members. The resulting JSONObject's keys will be the strings
@@ -294,33 +310,19 @@ public class JSONObject extends JSONBase {
      * @param names An array of strings, the names of the fields to be obtained
      * from the object.
      */
-    public JSONObject(Object object, String names[]) {
-        this();
+    public static JSONObject introspect(Object object, String[] names) {
+    	JSONObject ret=new JSONObject();
         Class c = object.getClass();
         for (int i = 0; i < names.length; i += 1) {
             String name = names[i];
             try {
-                putOpt(name, c.getField(name).get(object));
+                ret.putOpt(name, c.getField(name).get(object));
             } catch (Exception ignore) {
             }
         }
+        return ret;
     }
-
-
-    /**
-     * Construct a JSONObject from a source JSON text string.
-     * This is the most commonly used JSONObject constructor.
-     * @param source    A string beginning
-     *  with <code>{</code>&nbsp;<small>(left brace)</small> and ending
-     *  with <code>}</code>&nbsp;<small>(right brace)</small>.
-     * @exception JSONException If there is a syntax error in the source
-     *  string or a duplicated key.
-     */
-    public JSONObject(CharSequence source) throws JSONException {
-        this(new JSONTokener(source));
-    }
-
-
+    
     /**
      * Construct a JSONObject from a ResourceBundle.
      * @param baseName The ResourceBundle base name.
@@ -1582,7 +1584,7 @@ public class JSONObject extends JSONBase {
                      object.getClass().getClassLoader() == null) {
                  return object.toString();
              }
-             return new JSONObject(object);
+             return JSONObject.introspect(object);
          } catch(Exception exception) {
              return null;
          }

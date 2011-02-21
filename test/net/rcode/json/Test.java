@@ -161,7 +161,7 @@ public class Test extends TestCase {
         assertEquals("{\"person\": {\n    \"lastName\": \"Smith\",\n    \"address\": {\n        \"postalCode\": \"98765-4321\",\n        \"street\": \"12345 Sixth Ave\",\n        \"state\": \"CA\",\n        \"type\": \"home\",\n        \"city\": \"Anytown\"\n    },\n    \"created\": \"2006-11-11T19:23\",\n    \"firstName\": \"Robert\",\n    \"modified\": \"2006-12-31T23:59\"\n}}",
                 jsonobject.toString(4));
 
-        jsonobject = new JSONObject(beanie);
+        jsonobject = JSONObject.introspect(beanie);
         assertEquals("{\"string\":\"A beany object\",\"BENT\":\"All uppercase key\",\"boolean\":true,\"number\":42,\"x\":\"x\"}"
                 , jsonobject.toString());
 
@@ -250,7 +250,7 @@ public class Test extends TestCase {
         assertEquals("<array>1</array><array>2</array><array>3</array>", XML.toString(ar));
 
         String sa[] = {"aString", "aNumber", "aBoolean"};
-        jsonobject = new JSONObject(beanie, sa);
+        jsonobject = JSONObject.introspect(beanie, sa);
         jsonobject.put("Testing JSONString interface", beanie);
         assertEquals("{\n    \"aBoolean\": true,\n    \"aNumber\": 42,\n    \"aString\": \"A beany object\",\n    \"Testing JSONString interface\": {\"A beany object\":42}\n}",
             jsonobject.toString(4));
