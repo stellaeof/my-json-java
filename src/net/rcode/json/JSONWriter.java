@@ -107,7 +107,7 @@ public class JSONWriter {
      * @return this
      * @throws JSONException If the value is out of sequence.
      */
-    private JSONWriter append(String string) throws JSONException {
+    public JSONWriter append(String string) throws JSONException {
         if (string == null) {
             throw new JSONException("Null pointer");
         }
