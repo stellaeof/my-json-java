@@ -32,6 +32,9 @@ public abstract class JSONBase {
 			} else if (to==Double.class) {
 				if (from instanceof Number) return (T)Double.valueOf(((Number)from).doubleValue());
 				return (T)Double.valueOf(Double.parseDouble(from.toString()));
+			} else if (to==Float.class) {
+				if (from instanceof Number) return (T)Float.valueOf(((Number)from).floatValue());
+				return (T)Float.valueOf(Float.parseFloat(from.toString()));
 			} else if (to==Boolean.class) {
 				if (from instanceof Boolean) return (T)from;
 				if (from instanceof String) {
